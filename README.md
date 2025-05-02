@@ -1,5 +1,5 @@
-Routes
+# Routes
 
-Login and Register : "/"
-Patient Feed: : "/home/patient"
-Therapist Feed: "/home/therapist"
+- **Login and Register**: `/`
+- **Patient Feed**: `/home/patient`
+- **Therapist Feed**: `/home/therapist`
