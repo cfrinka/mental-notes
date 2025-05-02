@@ -2,7 +2,8 @@
 
 **Mental Notes** is a web application designed to facilitate mental health support by connecting patients with therapists. The application aims to provide a platform where users can register, log in, and access personalized feeds based on their roles.
 
-> **Status**: 🚧 Work in Progress  
+> **Status**: 🚧 Work in Progress
+> **Note**: Not 100% responsive, for better experience, view on desktop
 > **Note**: Backend integration is currently ongoing. Some features may not function as expected until the backend services are fully implemented.
 
 ## Features
@@ -24,12 +25,10 @@
 - **Styling**: Tailwind CSS
 - **State Management**: React Context API
 
-## Getting Started
+## Future Features
+- **Mobile Optimization**: Currently, the app is not 100% mobile friendly, this is top priority to solve, after integration is completed.
+- **Complete Profile**: Full profile for both roles, content being defined with healthcare professionals
+- **Animations**: Smoother transitions
+- **Patient Safety Measures**: We are currently understanding how to best alert the patient's emergency contact in case of an emergency.
 
-To run the project locally:
 
-1. **Clone the repository**:
-
-   ```bash
-   git clone https://github.com/cfrinka/mental-notes.git
-   cd mental-notes
