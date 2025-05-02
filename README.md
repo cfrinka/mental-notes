@@ -21,7 +21,7 @@
 ## Technologies Used
 
 - **Frontend**: Next.js, TypeScript
-- **Styling**: CSS
+- **Styling**: Tailwind CSS
 - **State Management**: React Context API
 
 ## Getting Started
