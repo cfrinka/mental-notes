@@ -3,8 +3,7 @@
 **Mental Notes** is a web application designed to facilitate mental health support by connecting patients with therapists. The application aims to provide a platform where users can register, log in, and access personalized feeds based on their roles.
 
 > **Status**: 🚧 Work in Progress
-> **Note**: Not 100% responsive, for better experience, view on desktop
-> **Note**: Backend integration is currently ongoing. Some features may not function as expected until the backend services are fully implemented.
+> **Note**: Backend integration is currently ongoing. Some features may not function as expected until the backend services are fully implemented. Not 100% responsive, for better experience, view on desktop
 
 ## Features
 
