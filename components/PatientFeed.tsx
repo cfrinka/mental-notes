@@ -1,35 +1,32 @@
 "use client";
-import { mockPosts } from "@/mocks/index";
 import Post from "./Post";
+import { PostType } from "@/app/(main)/home/patient/page";
 
 type PatientFeedProps = {
-  selectedPatientId: number | null;
+  posts: PostType[];
 };
 
-const PatientFeed: React.FC<PatientFeedProps> = ({ selectedPatientId }) => {
-  const filteredPosts = selectedPatientId
-    ? mockPosts.filter((post) => post.patientId === selectedPatientId)
+const PatientFeed: React.FC<PatientFeedProps> = ({ posts }) => {
+  const sortedPosts = posts
+    ? [...posts].sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      )
     : [];
 
   return (
-    <div className="h-full flex flex-col">
-      {selectedPatientId ? (
-        filteredPosts.length > 0 ? (
-          <div className="scrollable-feed space-y-4 p-2">
-            {filteredPosts.map((post) => (
-              <Post
-                key={post.id}
-                content={post.content}
-                createdAt={post.createdAt}
-              />
-            ))}
-          </div>
-        ) : (
-          <p className="text-[#8A8ADF] italic">Nenhum post encontrado.</p>
-        )
+    <div className="h-full flex flex-col gap-4 max-h-[500px] overflow-y-auto pr-2 scrollable-feed">
+      {sortedPosts.length > 0 ? (
+        sortedPosts.map((post) => (
+          <Post
+            key={post.id}
+            content={post.content}
+            createdAt={post.createdAt}
+          />
+        ))
       ) : (
         <p className="text-[#8A8ADF] italic">
-          Selecione um paciente para ver os posts.
+          Nenhum post encontrado para este paciente.
         </p>
       )}
     </div>

@@ -1,12 +1,24 @@
-"use client"; // Marking this as a Client Component
+"use client";
 
 import React from "react";
 import Image from "next/image";
 import logo from "@/assets/logo.png";
+import { signOut } from "firebase/auth";
+import { auth } from "@/lib/firebase";
+import { useRouter } from "next/navigation";
+import { useUserContext } from "@/context/UserContext";
 
 const Header = () => {
-  const handleLogout = () => {
-    console.log("User logged out");
+  const router = useRouter();
+  const { clearUserData } = useUserContext();
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      clearUserData();
+      router.push("/");
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
   };
 
   return (

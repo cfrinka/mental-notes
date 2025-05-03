@@ -15,7 +15,7 @@ import {
   limit,
   doc,
   setDoc,
-  getDoc,
+  where,
 } from "firebase/firestore";
 import { FirebaseError } from "firebase/app";
 import Button from "./Button";
@@ -53,7 +53,8 @@ const LoginRegister = () => {
 
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("entrou");
+    setErrorMessage(""); // Clear previous error messages
+
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
@@ -62,33 +63,50 @@ const LoginRegister = () => {
       );
 
       const user = userCredential.user;
-      const userRef = doc(db, "users", user.uid);
-      const userSnap = await getDoc(userRef);
-      console.log("userSnap", userSnap.data());
 
-      if (userSnap.exists()) {
-        const userData = userSnap.data();
-        console.log("userData", userData);
-        const userRole = userData.role;
-        const userDataFormattedForContext = {
-          uid: userData.id,
-          email: userData.email,
-          name: userData.name,
-          role: userData.role,
-          therapistId: userData.therapistId || null,
-        };
+      // Search for the user in the 'therapists' collection using email
+      const therapistsQuery = query(
+        collection(db, "therapists"),
+        where("email", "==", user.email)
+      );
+      const therapistsSnapshot = await getDocs(therapistsQuery);
 
-        setUserData(userDataFormattedForContext);
+      // Search for the user in the 'patients' collection using email
+      const patientsQuery = query(
+        collection(db, "patients"),
+        where("email", "==", user.email)
+      );
+      const patientsSnapshot = await getDocs(patientsQuery);
 
-        if (userRole === "therapist") {
-          router.push("/home/therapist");
-        } else if (userRole === "patient") {
-          router.push("/home/patient");
-        } else {
-          router.push("/");
-        }
+      let userData;
+      let role;
+
+      if (!therapistsSnapshot.empty) {
+        userData = therapistsSnapshot.docs[0].data();
+        role = "therapist";
+      } else if (!patientsSnapshot.empty) {
+        userData = patientsSnapshot.docs[0].data();
+        role = "patient";
       } else {
         setErrorMessage("User data not found.");
+        return;
+      }
+
+      const userDataFormattedForContext = {
+        uid: user.uid,
+        email: user.email,
+        name: userData.name,
+        role,
+        therapistId: userData.therapistId || null,
+      };
+
+      setUserData(userDataFormattedForContext);
+
+      // Redirect the user based on their role
+      if (role === "therapist") {
+        router.push("/home/therapist");
+      } else {
+        router.push("/home/patient");
       }
     } catch (error: unknown) {
       if (error instanceof FirebaseError) {

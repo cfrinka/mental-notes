@@ -7,7 +7,6 @@ const Home = () => {
   const { userData } = useUserContext();
   const router = useRouter();
   useEffect(() => {
-    console.log("userData", userData);
     if (userData && userData.role === "therapist") {
       router.push("/home/therapist");
     } else if (userData && userData.role === "patient") {

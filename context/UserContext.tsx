@@ -17,6 +17,7 @@ interface UserContextType {
   setUserData: (userData: User) => void;
   fetchUserData: () => Promise<void>;
   setUserFirestoreData: (userData: User) => Promise<void>;
+  clearUserData: () => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -58,6 +59,10 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     setUserDataState(userData);
   };
 
+  const clearUserData = () => {
+    setUserDataState(null);
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -65,6 +70,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         setUserData: setUserFirestoreData,
         fetchUserData,
         setUserFirestoreData,
+        clearUserData,
       }}
     >
       {children}
